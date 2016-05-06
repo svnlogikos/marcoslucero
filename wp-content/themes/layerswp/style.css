@@ -11,3 +11,42 @@ License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: layerswp
 */
+
+#layers-widget-post-3 .thumbnail-body{
+	height: 450px;
+}
+.separador:after{
+	display: block;
+position: absolute;
+content: '';
+width: 100px;
+height: 100px;
+
+left: 50%;
+margin-left: -50px;
+background-color: #fff; /** Change This Value ***/
+-ms-transform: rotate(45deg);
+-webkit-transform: rotate(45deg);
+transform: rotate(45deg);
+z-index: 1;
+}
+.separador-gris:after{
+	display: block;
+position: absolute;
+content: '';
+width: 100px;
+height: 100px;
+
+left: 50%;
+margin-left: -50px;
+background-color: #f9f9f9; /** Change This Value ***/
+-ms-transform: rotate(45deg);
+-webkit-transform: rotate(45deg);
+transform: rotate(45deg);
+z-index: 1;
+}
+.texto-consultoria{
+	color: #000;
+	font-size: 1.8rem;
+	background-color: #f9f9f9;
+}
