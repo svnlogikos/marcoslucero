@@ -45,8 +45,29 @@ background-color: #f9f9f9; /** Change This Value ***/
 transform: rotate(45deg);
 z-index: 1;
 }
+.separador-secciones{
+	height: 300px;
+}
+.separador-secciones:after{
+	display: block;
+position: relative;
+content: '';
+width: 100px;
+height: 100px;
+left: 50%;
+margin-left: -50px;
+background-color: #D87272; /** Change This Value ***/
+-ms-transform: rotate(45deg);
+-webkit-transform: rotate(45deg);
+transform: rotate(45deg);
+z-index: 1;
+top: 100%;
+}
 .texto-consultoria{
 	color: #000;
 	font-size: 1.8rem;
 	background-color: #f9f9f9;
+}
+.site-description{
+	display: none;
 }
