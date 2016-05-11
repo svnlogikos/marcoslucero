@@ -262,7 +262,7 @@ body {
   font-size: 1.1rem;
   line-height: 1.5;
   color: #f5f5f5;
-  background-color: #348384; }
+  background-color: #174344; }
 
 [tabindex="-1"]:focus {
   outline: none !important; }
@@ -7137,4 +7137,10 @@ z-index: -10;
 }
 #page-wrapper{
   margin-top: 50px;
+}
+#primary{
+  background: #fff;
+}
+.entry-title{
+  color: #348384;
 }

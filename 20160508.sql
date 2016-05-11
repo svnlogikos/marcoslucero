@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `marcoslucero`
 --
-DROP DATABASE `marcoslucero`;
+
 CREATE DATABASE IF NOT EXISTS `marcoslucero` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
 USE `marcoslucero`;
 
