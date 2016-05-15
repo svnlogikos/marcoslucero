@@ -24,6 +24,8 @@
 <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
 <!-- CUSTOM JS -->
 <script type="text/javascript" src="<?php bloginfo("template_url"); ?>/js/customs.js"></script>
+
+<script type="text/javascript" src="<?php bloginfo("template_url"); ?>/js/parallax.min.js"></script>
 </head>
 
 <body <?php body_class(); ?>>

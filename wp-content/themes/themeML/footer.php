@@ -9,6 +9,17 @@
 ?>
 
 <?php get_template_part('widget-templates/footerfull'); ?>
+<div class="parallax-window" data-parallax="scroll" data-image-src="<?php bloginfo( 'url' ); ?>/wp-content/themes/themeML/images/1.jpg">
+    <div class="row">
+        <div class="titulo_parallax col-md-2 col-md-offset-5">Mis Redes Sociales</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <a href=""><img class="img-responsive pull-right social-img" src="<?php bloginfo( 'url' ); ?>/wp-content/themes/themeML/images/facebook.svg" alt="" width="60" height="60"></a>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <a href=""><img class="img-responsive pull-left social-img" src="<?php bloginfo( 'url' ); ?>/wp-content/themes/themeML/images/youtube.svg" alt="" width="60" height="60"></a>
+        </div>
+    </div>
+</div>
 <div class="container-fluid accesos_directos">
     <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
         <div class="view view-first">
