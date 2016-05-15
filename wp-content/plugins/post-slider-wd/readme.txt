@@ -4,7 +4,7 @@ Donate link: https://web-dorado.com/products/wordpress-post-slider-plugin.html
 Tags: : auto play, banner rotator, best carousel slider, best post slider, best responsive slider, best slideshow, best slideshow plugin, carousel, carousel slider, center slider, content, content slider, custom post type, display posts, featured, featured thumbnail, gallery, get posts, google, image, image slider, image slideshow, images, infinite slider, javascript, jquery, latest posts, logo scroller, logo slider, most recent, most recent posts, new posts, new slider, news slider, next posts, popular posts, Post, post showcase, post slider, post slider plugin, posts, posts carousel, posts slider, product slider, recent, recent post, recent post slider, recent posts, responsive carousel, responsive carousel slider, responsive slider, responsive slideshow, scroll, shortcode, showcase, sidebar, sidebar slideshow, slider, slider plugin, slider posts, slideshow, sticky, testimonial, testimonial scroller, testimonial slider, testimonials, thumbnail, thumbnail slider, variable width carousel, widget, widgets, woocommerce, WooCommerce Products, woocommerce slider, wordpress, wordpress content slider, wordpress slideshow, post slideshow, posts slideshow, recent post slider, recent posts slideshow, responsive post slider, responsive posts slider,responsive recent post slider, shortcodes, shortcode, wordpress posts slider, plugin
 Requires at least: 3.9
 Tested up to: 4.5
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
   
@@ -150,6 +150,9 @@ After downloading the ZIP file of the Post Slider WD plugin,
 
 
 == Changelog ==
+
+= 1.0.6 =
+*  Added: Characters limit for text layer.   
 
 = 1.0.5 =
 *  Fixed: Add post page styles on Wordpress 4.5    

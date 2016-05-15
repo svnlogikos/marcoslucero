@@ -12,7 +12,6 @@ class WDPSViewWDPSPosts {
   ////////////////////////////////////////////////////////////////////////////////////////
   private $model;
 
-
   ////////////////////////////////////////////////////////////////////////////////////////
   // Constructor & Destructor                                                           //
   ////////////////////////////////////////////////////////////////////////////////////////
@@ -23,9 +22,7 @@ class WDPSViewWDPSPosts {
   // Public Methods                                                                     //
   ////////////////////////////////////////////////////////////////////////////////////////
   public function display() {
-   
     $slide_id = WDW_PS_Library::get('slide_id', 0);
-    
     if ($slide_id) {
       $single = 1;
     }
@@ -34,12 +31,6 @@ class WDPSViewWDPSPosts {
     }
     $slider_id = WDW_PS_Library::get('slider_id', 0);
     $slider_row = $this->model->get_slider_row_data($slider_id);
-     /*if(!$slider_id) {
-     $layer_word_count = 250;
-    }
-    else {
-      $layer_word_count = $slider_row->layer_word_count;
-    }*/
     $search_value = ((isset($_POST['search_value'])) ? esc_html(stripslashes($_POST['search_value'])) : '');
     $category_id = ((isset($_POST['category_id'])) ? esc_html(stripslashes($_POST['category_id'])) : '');
     $post_t = ((isset($_POST['archive-dropdown'])) ? esc_html(stripslashes($_POST['archive-dropdown'])) : 'post');
@@ -50,7 +41,6 @@ class WDPSViewWDPSPosts {
     $datas = $this->model->get_rows_data();
     $rows_data = $datas[0];
     $json = $datas[3];
-    
     $k = array();
     foreach($json as $keys =>$jsonik){
       array_push($k,$keys);
@@ -70,26 +60,25 @@ class WDPSViewWDPSPosts {
     $args=array(
       'object_type' => array($post_t) 
     ); 
-
-  $output = 'names'; // or objects
-  $operator = 'and'; // 'and' or 'or'
-  $taxonomies = get_taxonomies($args,$output,$operator);
-  $argss = array(
-    'orderby' => 'id', 
-    'order' => 'ASC',
-    'hide_empty' => false,
-  ); 
-  $terms = get_terms($taxonomies, $argss);
-  foreach($taxonomies as $taxonomie){
-    $termsss = ((isset($_POST['taxonomies_'.$taxonomie]) && esc_html(stripslashes($_POST['taxonomies_'.$taxonomie])) != -1) ? esc_html(stripslashes($_POST['taxonomies_'.$taxonomie])) : ''); 
-  }
+    $output = 'names'; // or objects
+    $operator = 'and'; // 'and' or 'or'
+    $taxonomies = get_taxonomies($args,$output,$operator);
+    $argss = array(
+      'orderby' => 'id', 
+      'order' => 'ASC',
+      'hide_empty' => false,
+    ); 
+    $terms = get_terms($taxonomies, $argss);
+    foreach($taxonomies as $taxonomie){
+      $termsss = ((isset($_POST['taxonomies_'.$taxonomie]) && esc_html(stripslashes($_POST['taxonomies_'.$taxonomie])) != -1) ? esc_html(stripslashes($_POST['taxonomies_'.$taxonomie])) : ''); 
+    }
     wp_print_scripts('jquery');
     wp_print_styles('admin-bar');
     wp_print_styles('wp-admin');
     wp_print_styles('dashicons');
     wp_print_styles('buttons');
     wp_print_styles('wp-auth-check');
-   if (get_bloginfo('version') < '3.9') { ?>
+    if (get_bloginfo('version') < '3.9') { ?>
     <link media="all" type="text/css" href="<?php echo get_admin_url(); ?>css/colors<?php echo ((get_bloginfo('version') < '3.8') ? '-fresh' : ''); ?>.min.css" id="colors-css" rel="stylesheet">
     <?php } ?>
     <link media="all" type="text/css" href="<?php echo WD_PS_URL . '/css/wdps_tables.css'; ?>" rel="stylesheet" />
@@ -97,7 +86,6 @@ class WDPSViewWDPSPosts {
     <link media="all" type="text/css" href="<?php echo WD_PS_URL . '/css/wdps_tables_320.css'; ?>" rel="stylesheet" />
     <script src="<?php echo WD_PS_URL . '/js/wdps.js'; ?>" type="text/javascript"></script>
     <form class="wrap wp-core-ui" id="posts_form" method="post" action="<?php echo add_query_arg(array('action' => 'WDPSPosts', 'width' => '700', 'height' => '550', 'TB_iframe' => '1'), admin_url('admin-ajax.php')); ?>" style="width:99%; margin: 0 auto;">
-    
       <h2 style="float: left;"><?php echo __('Posts','wdps_back'); ?></h2>
       <input type="button" class="button-primary" title="<?php echo __('Add Post','wdps_back'); ?>" onclick="wdps_add_post(jQuery('#ids_string').val(), <?php echo $count; ?>);
                                                                             window.parent.tb_remove();" style="float: right; margin: 9px 0;" value="<?php echo __('Add to slider','wdps_back'); ?>" />
@@ -128,34 +116,29 @@ class WDPSViewWDPSPosts {
         </select>
          </div>
         <?php
-         foreach($taxonomies as $taxonomie) {
-           if(get_terms($taxonomie, $argss)) {
-             $termsss = ((isset($_POST['taxonomies_'.$taxonomie]) && esc_html(stripslashes($_POST['taxonomies_'.$taxonomie])) != -1) ? esc_html(stripslashes($_POST['taxonomies_'.$taxonomie])) : __('-all-','wdps_back')); 
-        ?>
+        foreach ($taxonomies as $taxonomie) {
+          if (get_terms($taxonomie, $argss)) {
+            $termsss = ((isset($_POST['taxonomies_'.$taxonomie]) && esc_html(stripslashes($_POST['taxonomies_'.$taxonomie])) != -1) ? esc_html(stripslashes($_POST['taxonomies_'.$taxonomie])) : __('-all-','wdps_back')); 
+            ?>
           <label><?php echo $taxonomie . ':'; ?> </label>
           <select  style="margin:5px 0 0 7px" name="taxonomies_<?php echo $taxonomie;?>" id="taxonomies_<?php echo $taxonomie;?>"  >
-          <option value=""  >
-             <?php echo  '<p>'. __('-all-','wdps_back') . '</p>'; ?>
-          </option>
-         <?php
-         foreach( $terms as $term ) {
-           if($taxonomie == $term->taxonomy) {
-             ?>
-          
-           <option    <?php echo (($termsss == $term->slug ) ? 'selected="selected"' : '');?> value="<?php echo  $term->slug; ?>">
-           
+            <option value=""><?php echo  '<p>'. __('-all-','wdps_back') . '</p>'; ?></option>
+            <?php
+            foreach ($terms as $term ) {
+              if ($taxonomie == $term->taxonomy) {
+                ?>
+            <option <?php echo (($termsss == $term->slug ) ? 'selected="selected"' : '');?> value="<?php echo  $term->slug; ?>">
               <?php echo $term->name; ?>
-               </option > 
-        <?php 
-           }
-         }
-         ?>
-        </select>
-        <?php
+            </option> 
+                <?php 
+              }
+            }
+           ?>
+          </select>
+          <?php
+          }
         }
-         }
         ?>
-       
       <div class="spider_message" style="padding:13px;" ><div class="wd_updated"><p><strong><?php echo __('You can include only published posts with featured image.','wdps_back'); ?></strong></p></div></div>
       <table class="wp-list-table widefat fixed pages">
         <thead>
@@ -194,7 +177,6 @@ class WDPSViewWDPSPosts {
         <tbody id="tbody_arr">
           <?php
           $ids_string = '';
-           
           if ($rows_data) {
             $l = 0;
             foreach($rows_data as  $key => $row_data) {
@@ -238,12 +220,9 @@ class WDPSViewWDPSPosts {
       }
     </style>
     <script>
-   
       jQuery(window).load(function () {
-        
         jQuery(".wdps_category_name").change(function () {
           jQuery("#page_number").val(1);
-         
           jQuery("#search_or_not").val("search");
           jQuery("#posts_form").submit();
         });

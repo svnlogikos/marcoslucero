@@ -14,7 +14,9 @@ function wdps_update($version) {
     $wpdb->query("ALTER TABLE " . $wpdb->prefix . "wdpsslider ADD `carousel_grayscale` int(4) NOT NULL DEFAULT 0");
     $wpdb->query("ALTER TABLE " . $wpdb->prefix . "wdpsslider ADD `carousel_transparency` int(4) NOT NULL DEFAULT 0");
   }
+  if (version_compare($version, '1.0.6') == -1) {
+    $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "wdpslayer` ADD `layer_characters_count` int(4) NOT NULL DEFAULT 250");
+  }
   return;
 }
-
 ?>

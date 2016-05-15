@@ -101,6 +101,7 @@ class WDPSModelSliders_wdps {
       $rows[0]->link = '';
       $rows[0]->google_fonts = '';
       $rows[0]->target_attr_layer = 0;
+      $rows[0]->layer_characters_count = 250;
     }
     else {
     foreach ($rows as $row) {
@@ -114,14 +115,15 @@ class WDPSModelSliders_wdps {
 
   public function get_slider_prev_img($slider_id) { 
     global $wpdb;
-    $my_post_row = $wpdb->get_row($wpdb->prepare('SELECT * FROM ' . $wpdb->prefix . 'wdpsslider WHERE id="%d"', $slider_id));
-    if ($my_post_row->dynamic == 0) {
+     $my_post_row = $wpdb->get_row($wpdb->prepare('SELECT dynamic,choose_post,post_sort,author_name,order_by_posts,cache_expiration,taxonomies,posts_count FROM ' . $wpdb->prefix . 'wdpsslider WHERE id="%d"', $slider_id));
+     
+    if($my_post_row->dynamic == 0) {
       $prev_img_url = $wpdb->get_var($wpdb->prepare("SELECT `image_url` FROM " . $wpdb->prefix . "wdpsslide WHERE title<>'prototype' AND slider_id='%d' ORDER BY `order` ASC", $slider_id));
     }
     else {
       $prev_img_url = $wpdb->get_var($wpdb->prepare("SELECT `image_url` FROM " . $wpdb->prefix . "wdpsslide WHERE title='prototype' AND slider_id='%d' ORDER BY `order` ASC", $slider_id));
       $post_type = $my_post_row->choose_post;
-      $asc_or_desc = ($my_post_row->order_by_posts == 1)? 'asc' : 'desc';
+      $asc_or_desc = ($my_post_row->order_by_posts == 1) ? 'asc' : 'desc';
       $author_name = $my_post_row->author_name;
       $cache_expiration_array = preg_split("/[\s,]+/", $my_post_row->cache_expiration);
       $cache_expiration_count = $cache_expiration_array[0];
@@ -130,140 +132,149 @@ class WDPSModelSliders_wdps {
       $posts_count = $my_post_row->posts_count;
       $taxonom = $my_post_row->taxonomies; 
       $users = get_users();
-      foreach ($users as $user) {
-        if ($user->display_name == $author_name) {
+      foreach($users as $user){
+        if($user->display_name == $author_name) {
           $author_id = $user->ID; 
         }
       }
-      if ($author_name == '') {
-        $author_id = '';
+        if($author_name == ''){
+          $author_id = ''; 
+        }
+        
+      if($order_by =="author") {
+          $order_by ='author';
+        }
+        else if($order_by == 'publishing date') {
+          $order_by = 'post_date';
+        }
+        else if($order_by == 'modification date') {
+          $order_by = 'post_modified';
+        }
+        else if($order_by == 'number of comments') {
+          $order_by = 'comment_count';
+        }
+        else if($order_by == 'post title') {
+          $order_by = 'post_title';
+        }
+        else if($order_by == 'menu order') {
+          $order_by = 'menu_order';
+        }
+        else {
+          $order_by ='rand';
+        }
+         if($cache_expiration_name == 'hour') {
+          $newdata_time = time() - ($cache_expiration_count * 60 * 60 );
+        }
+        else if($cache_expiration_name == 'day'){
+          $newdata_day = time() - (1 * 60 * 60 );
+          $newdate = new DateTime(date('Y-m-d', $newdata_day));
+          $newdate->modify('-'.$cache_expiration_count.' day');
+          $newdate->format('Y-m-d');
+        }
+        else if($cache_expiration_name == 'week') { 
+          $newdata_day = time() - (1 * 60 * 60 );
+          $newdate = new DateTime(date('Y-m-d', $newdata_day));
+          $newdate->modify('-'.$cache_expiration_count.' week');
+          $newdate->format('Y-m-d');
+        }
+        else if ($cache_expiration_name == 'month') {
+          $newdata_day = time() - (1 * 60 * 60 );
+          $newdate = new DateTime(date('Y-m-d', $newdata_day));
+          $newdate->modify('-'.$cache_expiration_count.' month');
+          $newdate->format('Y-m-d');
+        }
+       $argss = array(
+         'posts_per_page' => 255,
+         'orderby' => $order_by,
+         'order' => $asc_or_desc,
+         'post_type' => $post_type,
+         'author' => $author_id,
+         'post_status' => 'publish',
+        );
+        $args=array(
+          'object_type' => array($post_type) 
+        );
+        $output = 'names'; // or objects
+        $operator = 'and'; // 'and' or 'or'
+        $taxonomies = get_taxonomies($args,$output,$operator);
+        $tax_query = array();
+        $term = json_decode($taxonom);
+        $post_term =array();   
+        foreach($term as $terms) {
+          $post_term[] = $terms;
+        }     
+          $i = 0;
+        foreach($taxonomies as $taxonomie) {
+          if($post_term[$i] !='') {
+            $tax_query[] = array(
+              'taxonomy' => $taxonomie,
+              'field' => 'slug',
+              'terms' =>  $post_term[$i]
+            );
+          
+         }
+         $i++;
+     }  
+         
+    $argss['tax_query'] = $tax_query;
+    $posts = get_posts($argss);
+    
+        $q = 0;
+        foreach($posts as $post) {
+          if($post && has_post_thumbnail($post->ID) && !post_password_required($post->ID)) {
+            $posts_data = get_post_field('post_date',$post->ID);
+             if( $cache_expiration_count == 0 || $cache_expiration_name == '' ) {
+              $thumb_id = get_post_thumbnail_id($post->ID);
+              $prev_img_url = wp_get_attachment_url($thumb_id);
+            
+              if($posts_count != 0) {
+                $q++;
+              }
+             break;
       }
-      if ($order_by == 'author') {
-        $order_by = 'author';
-      }
-      elseif ($order_by == 'publishing date') {
-        $order_by = 'post_date';
-      }
-      else if($order_by == 'modification date') {
-        $order_by = 'post_modified';
-      }
-      else if($order_by == 'number of comments') {
-        $order_by = 'comment_count';
-      }
-      else if($order_by == 'post title') {
-        $order_by = 'post_title';
-      }
-      else if($order_by == 'menu order') {
-        $order_by = 'menu_order';
-      }
-      else {
-        $order_by ='rand';
-      }
-      if ($cache_expiration_name == 'hour') {
-        $newdata_time = time() - ($cache_expiration_count * 60 * 60 );
-      }
-      elseif ($cache_expiration_name == 'day') {
-        $newdata_day = time() - (1 * 60 * 60 );
-        $newdate = new DateTime(date('Y-m-d', $newdata_day));
-        $newdate->modify('-'.$cache_expiration_count.' day');
-        $newdate->format('Y-m-d');
-      }
-      elseif ($cache_expiration_name == 'week') {
-        $newdata_day = time() - (1 * 60 * 60 );
-        $newdate = new DateTime(date('Y-m-d', $newdata_day));
-        $newdate->modify('-'.$cache_expiration_count.' week');
-        $newdate->format('Y-m-d');
-      }
-      elseif ($cache_expiration_name == 'month') {
-        $newdata_day = time() - (1 * 60 * 60 );
-        $newdate = new DateTime(date('Y-m-d', $newdata_day));
-        $newdate->modify('-'.$cache_expiration_count.' month');
-        $newdate->format('Y-m-d');
-      }
-      $argss = array(
-        'posts_per_page' => 255,
-        'orderby' => $order_by,
-        'order' => $asc_or_desc,
-        'post_type' => $post_type,
-        'author' => $author_id,
-        'post_status' => 'publish',
-      );
-      $args = array(
-        'object_type' => array($post_type)
-      );
-      $output = 'names'; // or objects
-      $operator = 'and'; // 'and' or 'or'
-      $taxonomies = get_taxonomies($args,$output,$operator);
-      $tax_query = array();
-      $term = json_decode($taxonom);
-      $post_term =array();   
-      foreach($term as $terms) {
-        $post_term[] = $terms;
-      }     
-      $i = 0;
-      foreach($taxonomies as $taxonomie) {
-        if ($post_term[$i] !='') {
-          $tax_query[] = array(
-            'taxonomy' => $taxonomie,
-            'field' => 'slug',
-            'terms' =>  $post_term[$i]
-          );
-       }
-       $i++;
-     }
-      $argss['tax_query'] = $tax_query;
-      $posts = get_posts($argss);
-      $q = 0;
-      foreach($posts as $post) {
-        if ($post && has_post_thumbnail($post->ID) && !post_password_required($post->ID)) {
-          $posts_data = get_post_field('post_date',$post->ID);
-          if ($cache_expiration_count == 0 || $cache_expiration_name == '') {
+      else {      
+        if($cache_expiration_name != 'hour' && $newdate->format('Y-m-d') <= $posts_data) {
+          $thumb_id = get_post_thumbnail_id($post->ID);
+            $prev_img_url = wp_get_attachment_url($thumb_id);
+            
+           if($posts_count != 0) {
+            $q++;
+          }
+          break;
+        }
+        else if ($cache_expiration_name == 'hour' && date('Y-m-d H:i:s',$newdata_time) <= $posts_data ) {
             $thumb_id = get_post_thumbnail_id($post->ID);
             $prev_img_url = wp_get_attachment_url($thumb_id);
-              if ($posts_count != 0) {
-                $q++;
-              }
-            break;
+            
+           if($posts_count != 0) {
+            $q++;
           }
-          else {      
-            if ($cache_expiration_name != 'hour' && $newdate->format('Y-m-d') <= $posts_data) {
-              $thumb_id = get_post_thumbnail_id($post->ID);
-              $prev_img_url = wp_get_attachment_url($thumb_id);
-              if ($posts_count != 0) {
-                $q++;
-              }
-              break;
-            }
-            elseif ($cache_expiration_name == 'hour' && date('Y-m-d H:i:s',$newdata_time) <= $posts_data ) {
-              $thumb_id = get_post_thumbnail_id($post->ID);
-              $prev_img_url = wp_get_attachment_url($thumb_id);
-              if ($posts_count != 0) {
-                $q++;
-              }
-              break;
-            }
-          }
-          if ($posts_count != 0 && $q >= $posts_count) {
-            break;
-          }     
+          break;
         }
       }
+       if($posts_count != 0 && $q >= $posts_count) {
+     break;
+    }     
+          }
+        }
     }
-    $prev_img_url = ($prev_img_url) ? $prev_img_url : WD_PS_URL . '/images/no-image.png';
+    $prev_img_url = ($prev_img_url)? $prev_img_url:WD_PS_URL . '/images/no-image.png';
     return $prev_img_url;
   }
 
   public function get_rows_data() {
+    global $wpdb;
     $post_type = ((isset($_POST['archive-dropdown']) && esc_html(stripslashes($_POST['archive-dropdown'])) != -1) ? esc_html(stripslashes($_POST['archive-dropdown'])) : '');
-    $args = array(
-      'object_type' => array($post_type)
-    );
-    $output = 'names'; // or objects
-    $operator = 'and'; // 'and' or 'or'
-    $taxonomies = get_taxonomies($args,$output,$operator); 
-    foreach($taxonomies as $taxonomie){
-       $termsss = ((isset($_POST['taxonomies_'.$taxonomie]) && esc_html(stripslashes($_POST['taxonomies_'.$taxonomie])) != -1) ? esc_html(stripslashes($_POST['taxonomies_'.$taxonomie])) : '');
-    }
+     $args=array(
+      'object_type' => array($post_type) 
+    ); 
+
+  $output = 'names'; // or objects
+  $operator = 'and'; // 'and' or 'or'
+  $taxonomies = get_taxonomies($args,$output,$operator); 
+  foreach($taxonomies as $taxonomie){
+     $termsss = ((isset($_POST['taxonomies_'.$taxonomie]) && esc_html(stripslashes($_POST['taxonomies_'.$taxonomie])) != -1) ? esc_html(stripslashes($_POST['taxonomies_'.$taxonomie])) : '');
+  }
     $where = ((isset($_POST['search_value'])) ? 'WHERE name LIKE "%' . esc_html(stripslashes($_POST['search_value'])) . '%"' : '');
     $asc_or_desc = ((isset($_POST['asc_or_desc']) && esc_html($_POST['asc_or_desc']) == 'desc') ? 'desc' : 'asc');
     $order_by_arr = array('id', 'name', 'published');
@@ -275,7 +286,6 @@ class WDPSModelSliders_wdps {
     else {
       $limit = 0;
     }
-    global $wpdb;
     $query = "SELECT * FROM " . $wpdb->prefix . "wdpsslider " . $where . $order_by . " LIMIT " . $limit . ",20";
     $rows = $wpdb->get_results($query);
     return $rows;
@@ -421,23 +431,22 @@ class WDPSModelSliders_wdps {
   }
   public function get_post_data() {
     $post_fildes_names = array(
-      '0' => 'ID',
-      '1' => 'post_author',
-      '2' => 'post_date',
-      '3' => 'post_content',
-      '4' => 'post_title',
-      '5' => 'post_excerpt',
-      '6' => 'post_status',
-      '7' => 'post_name',
-      '8' => 'to_ping',
-      '9' => 'post_modified',
-      '10' => 'post_type',
-      '11' => 'comment_count',
-      '12' => 'filter',
+        '0' => 'ID',
+        '1' => 'post_author',
+        '2' => 'post_date',
+        '3' => 'post_content',
+        '4' => 'post_title',
+        '5' => 'post_excerpt',
+        '6' => 'post_status',
+        '7' => 'post_name',
+        '8' => 'to_ping',
+        '9' => 'post_modified',
+        '10' => 'post_type',
+        '11' => 'comment_count',
+        '12' => 'filter',
     );
     return $post_fildes_names;
   }
-
   public function add_more_link($content, $link, $charlength) {
     if (mb_strlen($content) > $charlength) {
       $subex = mb_substr($content, 0, $charlength);
@@ -445,6 +454,7 @@ class WDPSModelSliders_wdps {
     }
     else {
       return $content;
+     
     }
   }
   ////////////////////////////////////////////////////////////////////////////////////////

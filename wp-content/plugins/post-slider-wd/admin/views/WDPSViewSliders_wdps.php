@@ -2424,7 +2424,15 @@ class WDPSViewSliders_wdps {
                                 <div class="spider_description"><?php echo __('Use CSS type values (e.g. 10px 10px 5px #888888).','wdps_back'); ?></div>
                               </td>
                             </tr>
-                            
+                            <tr>
+                              <td title="<?php echo __('This will limit the number of characters for post content displayed as a text layer.','wdps_back'); ?>" >
+                                <label for="<?php echo $prefix; ?>_layer_characters_count"><?php echo __('Text layer character limit:','wdps_back'); ?> </label>
+                              </td>
+                              <td>
+                                <input id="<?php echo $prefix; ?>_layer_characters_count" class="spider_int_input" type="text" value="<?php echo $layer->layer_characters_count; ?>" name="<?php echo $prefix; ?>_layer_characters_count" />
+                                <div class="spider_description"><?php echo __('This will limit the number of characters for post content displayed as a text layer.','wdps_back'); ?></div>
+                              </td>
+                            </tr>
                               </table>
                                </td>
                             </tr>
@@ -3133,7 +3141,15 @@ class WDPSViewSliders_wdps {
                                 <div class="spider_description"><?php echo __('Use CSS type values (e.g. 10px 10px 5px #888888).','wdps_back'); ?></div>
                               </td>
                             </tr>
-                            
+                            <tr>
+                              <td title="<?php echo __('This will limit the number of characters for post content displayed as a text layer.','wdps_back'); ?>" >
+                                <label for="<?php echo $prefix; ?>_layer_characters_count"><?php echo __('Text layer character limit:','wdps_back'); ?> </label>
+                              </td>
+                              <td>
+                                <input id="<?php echo $prefix; ?>_layer_characters_count" class="spider_int_input" type="text" value="<?php echo $layer->layer_characters_count; ?>" name="<?php echo $prefix; ?>_layer_characters_count" />
+                                <div class="spider_description"><?php echo __('This will limit the number of characters for post content displayed as a text layer.','wdps_back'); ?></div>
+                              </td>
+                            </tr>
                               </table>
                                </td>
                             </tr>

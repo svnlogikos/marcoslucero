@@ -916,7 +916,7 @@ class WDPSViewSlider {
                                              color: #<?php echo $layer->color; ?>;
                                              font-family: <?php echo $layer->ffamily; ?>;
                                              font-weight: <?php echo $layer->fweight; ?>;
-                                             background-color: #843534 !important;
+                                             background-color: rgb(113, 76, 86) !important;
                                              font-size: 1.2rem !important;
                                              font-family: 'Open Sans Condensed', sans-serif !important;
                                              width: 35% !important;

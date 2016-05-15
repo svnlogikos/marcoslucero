@@ -4,7 +4,7 @@
  * Plugin Name: Post Slider WD
  * Plugin URI: https://web-dorado.com/products/wordpress-post-slider-plugin.html
  * Description: Post Slider WD is designed to show off your selected posts of your website using in a slider. 
- * Version: 1.0.5
+ * Version: 1.0.6
  * Author: WebDorado
  * Author URI: https://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -33,9 +33,9 @@ function wdps_options_panel() {
   add_action('admin_print_scripts-' . $uninstall_page, 'wdps_scripts');
 }
 add_action('admin_menu', 'wdps_options_panel');
+
 function wdps_sliders() {
- 
-  if (function_exists('current_user_can')) {
+   if (function_exists('current_user_can')) {
     if (!current_user_can('manage_options')) {
       die('Access Denied');
     }
@@ -45,14 +45,13 @@ function wdps_sliders() {
   }
   require_once(WD_PS_DIR . '/framework/WDW_PS_Library.php');
   $page = WDW_PS_Library::get('page');
-  
+
   if (($page != '') && (($page == 'sliders_wdps') || ($page == 'uninstall_wdps') || ($page == 'WDPSShortcode'))) {
     require_once(WD_PS_DIR . '/admin/controllers/WDPSController' . (($page == 'WDPSShortcode') ? $page : ucfirst(strtolower($page))) . '.php');
     $controller_class = 'WDPSController' . ucfirst(strtolower($page));
     $controller = new $controller_class();
     $controller->execute();
   }
- 
 }
 
 function wdps_licensing() {
@@ -109,8 +108,6 @@ function wdps_frontend() {
     $controller->execute();
   }
 }
-
-
 
 function wdps_ajax() {
   if (function_exists('current_user_can')) {
@@ -236,7 +233,7 @@ register_activation_hook(__FILE__, 'wdps_activate');
 
 function wdps_install() {
   $version = get_option("wdps_version");
-  $new_version = '1.0.5';
+  $new_version = '1.0.6';
   if ($version && version_compare($version, $new_version, '<')) {
     require_once WD_PS_DIR . "/sliders-update.php";
     wdps_update($version);
@@ -375,11 +372,13 @@ function wdps_scripts() {
     'font_weight'  => __('Font weight:', 'wdps_back'),
     'padding'  => __('Padding:', 'wdps_back'),
     'use_css_type_value'  => __('Use CSS type values.', 'wdps_back'),
+    'layer_characters_div'=> __('This will limit the number of characters for post content displayed as a text layer.', 'wdps_back'),
     'background_color'  => __('Background Color:', 'wdps_back'),
     'transparent'  => __('Transparent:', 'wdps_back'),
     'wdps_value_must'  => __('Value must be between 0 to 100.', 'wdps_back'),
     'radius'  => __('Radius:', 'wdps_back'),
     'shadow'  => __('Shadow:', 'wdps_back'),
+    'text_layer_character_limit'  => __('Text layer character limit:', 'wdps_back'),
     'scale'  => __('Scale:', 'wdps_back'),
     'wdps_set_width_height'  => __('Set width and height of the image.', 'wdps_back'),
     'social_button'  => __('Social button:', 'wdps_back'),

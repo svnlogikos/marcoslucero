@@ -50,6 +50,7 @@ function spider_ajax_save(form_id, event) {
   post_data["carousel_degree"] = jQuery("#carousel_degree").val();
   post_data["carousel_grayscale"] = jQuery("#carousel_grayscale").val();
   post_data["carousel_transparency"] = jQuery("#carousel_transparency").val();
+  
   /*Dynamic.*/
    post_data["dynamic"] = jQuery("input[name=dynamic]:checked").val();
    post_data["cache_expiration_count"] = jQuery("#cache_expiration_count").val();
@@ -130,7 +131,7 @@ function spider_ajax_save(form_id, event) {
    /*Smart Crop*/
   post_data["smart_crop"] = jQuery("input[name=smart_crop]:checked").val();
   post_data["crop_image_position"] = jQuery("input[name=crop_image_position]:checked").val();
-
+  
   var wdps_slide_ids = jQuery("#slide_ids_string").val();
   var slide_ids_array = wdps_slide_ids.split(",");
   for (var i in slide_ids_array) {
@@ -179,6 +180,7 @@ function spider_ajax_save(form_id, event) {
                 json_data["border_color"] = jQuery("#" + prefix + "_border_color").val();
                 json_data["border_radius"] = jQuery("#" + prefix + "_border_radius").val();
                 json_data["shadow"] = jQuery("#" + prefix + "_shadow").val();
+                json_data["layer_characters_count"] = jQuery("#" + prefix + "_layer_characters_count").val();
                 break;
               }
               case "image": {
@@ -1173,7 +1175,7 @@ function image_for_bull_butt(display) {
     case 'style' : {
       jQuery("#bull_butt_img_or_not_stl").attr('checked', 'checked');
       jQuery("#bullets_images_select").css('display', 'none');
-	    jQuery("#bullets_images_cust").css('display', 'none');  
+	  jQuery("#bullets_images_cust").css('display', 'none');  
       jQuery("#bullets_style").css('display', '');
       jQuery("#bullets_act_color").css('display', '');
       jQuery("#bullets_color").css('display', '');
@@ -1711,7 +1713,7 @@ function wdps_duplicate_layer(type, id, layerID, new_id) {
   jQuery("#" + new_prefix + "_imgtransparent").val(jQuery("#" + prefix + "_imgtransparent").val());
   jQuery("#" + new_prefix + "_hover_color").val(jQuery("#" + prefix + "_hover_color").val());
   jQuery("#" + new_prefix + "_type").val(jQuery("#" + prefix + "_type").val());
- 
+  jQuery("#" + new_prefix + "_layer_characters_count").val(jQuery("#" + prefix + "_layer_characters_count").val());
 
   if (jQuery("#" + prefix + "_published1").is(":checked")) {
     jQuery("#" + new_prefix + "_published1").attr("checked", "checked");
@@ -2086,6 +2088,7 @@ function wdps_add_layer(type, id, layerID, duplicate, files, edit, by_text_layer
                       '<td><input type="text" name="' + prefix + '_border_radius" id="' + prefix + '_border_radius" value="2px" class="spider_char_input" onchange="jQuery(\'#' + prefix + '\').css({borderRadius: jQuery(this).val()})" /><div class="spider_description">' + wdps_objectL10B.use_css_type_value + '</div></td>';
   var shadow = '<td class="spider_label"><label for="' + prefix + '_shadow">'+ wdps_objectL10B.shadow + '  </label></td>' +
                '<td><input type="text" name="' + prefix + '_shadow" id="' + prefix + '_shadow" value="" class="spider_char_input" onchange="jQuery(\'#' + prefix + '\').css({boxShadow: jQuery(this).val()})" /><div class="spider_description">' + wdps_objectL10B.use_css_type_value + ' (e.g. 10px 10px 5px #888888).</div></td>';
+  var layer_characters_count = '<td class="spider_label"><label for="' + prefix + '_layer_characters_count">'+ wdps_objectL10B.text_layer_character_limit +                             '  </label></td>' + '<td><input type="text" name="' + prefix + '_layer_characters_count" id="' + prefix +              '_layer_characters_count" value="250" class="spider_int_input" /><div class="spider_description">' + wdps_objectL10B.layer_characters_div + ' </div></td>';             
   var dimensions = '<td class="spider_label"><label>Dimensions: </label></td>' +
                    '<td>' +
                      '<input type="hidden" name="' + prefix + '_image_url" id="' + prefix + '_image_url" />' +
@@ -2193,7 +2196,9 @@ function wdps_add_layer(type, id, layerID, duplicate, files, edit, by_text_layer
 					'</tr><tr>' +
 						border_radius +
 					'</tr><tr>' +
-						shadow +
+						shadow+
+					'</tr><tr>' +
+						layer_characters_count +
 					'</tr>' +			
 				'</table>'+  
 				'</td></tr>' + layer_type 
@@ -2783,7 +2788,6 @@ function wde_change_text_bg_color(prefix) {
   jQuery("#" + prefix).css({backgroundColor: bgColor});
   wdps_hotspot_position(prefix);
 }
-
 function wdps_enable_disable(display, id, current) {
   jQuery("#" + current).attr('checked', 'checked');
   jQuery("#" + id).css('display', display);

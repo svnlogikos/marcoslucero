@@ -517,8 +517,9 @@ class WDPSControllerSliders_wdps {
 		$hotp_border_style = ((isset($params_array['hotp_border_style'])) ? esc_html(stripslashes($params_array['hotp_border_style'])) : '');
 		$hotp_border_color = ((isset($params_array['hotp_border_color'])) ? esc_html(stripslashes($params_array['hotp_border_color'])) : '');
 		$hotp_border_radius = ((isset($params_array['hotp_border_radius'])) ? esc_html(stripslashes($params_array['hotp_border_radius'])) : '');
-        $hotp_text_position = ((isset($params_array['hotp_text_position'])) ? esc_html(stripslashes($params_array['hotp_text_position'])) : '');
+    $hotp_text_position = ((isset($params_array['hotp_text_position'])) ? esc_html(stripslashes($params_array['hotp_text_position'])) : '');
 		$google_fonts = ((isset($params_array['google_fonts'])) ? esc_html(stripslashes($params_array['google_fonts'])) : 0);
+    $layer_characters_count = ((isset($params_array['layer_characters_count'])) ? esc_html(stripslashes($params_array['layer_characters_count'])) : 250);
         if ($title) {
           if (strpos($layer_id, 'pr_') !== FALSE) {
             $save = $wpdb->insert($wpdb->prefix . 'wdpslayer', array(
@@ -545,6 +546,7 @@ class WDPSControllerSliders_wdps {
               'border_color' => $border_color,
               'border_radius' => $border_radius,
               'shadow' => $shadow,
+              'layer_characters_count' => $layer_characters_count,
               'image_url' => $image_url,
               'image_width' => $image_width,
               'image_height' => $image_height,
@@ -592,6 +594,7 @@ class WDPSControllerSliders_wdps {
               'border_color' => $border_color,
               'border_radius' => $border_radius,
               'shadow' => $shadow,
+              'layer_characters_count' => $layer_characters_count,
               'image_url' => $image_url,
               'image_width' => $image_width,
               'image_height' => $image_height,
@@ -852,6 +855,7 @@ class WDPSControllerSliders_wdps {
 			          'hotp_border_radius' => $layer_id->hotp_border_radius,
                 'hotp_text_position' => $layer_id->hotp_text_position,
                 'google_fonts' => $layer_id->google_fonts,
+                'layer_characters_count' => $layer_id->layer_characters_count,
               ));
                          
             }

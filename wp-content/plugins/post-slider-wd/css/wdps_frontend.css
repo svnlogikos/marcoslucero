@@ -39,7 +39,14 @@ div[id^="wdps_container"] video {
   padding: 0 !important;
 }
 
-
+.wdps_layer a,
+.wdps_layer a:hover {
+  color: inherit !important;
+  font-size: inherit !important;
+  font-style: inherit !important;
+  font-weight: inherit !important;
+  /*text-decoration: none;*/
+}
 
 .wdps_loading_img {
   border: none !important;

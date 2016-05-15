@@ -49,7 +49,6 @@ function wdps_hide_thumb(wdps) {
   jQuery('.wdps_bulframe_' + wdps ).css({'background-image':''});
   jQuery('.wdps_bulframe_' + wdps ).fadeOut();
 }
-
 function wdps_set_text_dots_cont(wdps) {
   var wdps_bull_width = 0;
   jQuery(".wdps_slideshow_dots_" + wdps).each(function(){

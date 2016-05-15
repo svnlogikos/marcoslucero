@@ -9,7 +9,52 @@
 ?>
 
 <?php get_template_part('widget-templates/footerfull'); ?>
-
+<div class="container-fluid accesos_directos">
+    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <div class="view view-first">
+            <img class="img-responsive center-block" src="<?php bloginfo( 'url' ); ?>/wp-content/themes/themeML/images/consultoria.svg" alt="" width="160" height="160">
+            <div class="mask">  
+                <h2>CONSULTORIA</h2>  
+                <p>Lo que necesitas saber para que tu negocio marche.</p>  
+                <a href="<?php bloginfo( 'url' ); ?>/consultoria/" class="info">Ingresar</a>  
+            </div>  
+        </div>
+        
+    </div>
+    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <div class="view view-first">
+            <img class="img-responsive center-block" src="<?php bloginfo( 'url' ); ?>/wp-content/themes/themeML/images/libro.svg" alt="" width="160" height="160">
+            <div class="mask">  
+                <h2>PUBLICACIONES</h2>  
+                <p>Vas a poder acceder a mis publicaciones.</p>  
+                <a href="<?php bloginfo( 'url' ); ?>/publicaciones/" class="info">Ingresar</a>  
+            </div>  
+        </div>
+        
+    </div>
+    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <div class="view view-first">
+            <img class="img-responsive center-block" src="<?php bloginfo( 'url' ); ?>/wp-content/themes/themeML/images/estudiante-graduado.svg" alt="" width="160" height="160">
+            <div class="mask">  
+                <h2>ESTUDIANTES</h2>  
+                <p>Descarga de material</p>  
+                <a href="<?php bloginfo( 'url' ); ?>/estudiantes/" class="info">Ingresar</a>  
+            </div>  
+        </div>
+        
+    </div>
+    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <div class="view view-first">
+            <img class="img-responsive center-block" src="<?php bloginfo( 'url' ); ?>/wp-content/themes/themeML/images/email.svg" alt="" width="160" height="160">
+            <div class="mask">  
+                <h2>CONTACTAME</h2>  
+                <p>A través de este fomulario de contacto</p>  
+                <a href="<?php bloginfo( 'url' ); ?>/contacto/" class="info">Ingresar</a>  
+            </div>  
+        </div>
+        
+    </div>
+</div>
 <div class="wrapper" id="wrapper-footer">
     
     <div class="container">

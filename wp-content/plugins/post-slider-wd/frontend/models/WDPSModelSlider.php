@@ -51,6 +51,10 @@ class WDPSModelSlider {
          $layers_row = $wpdb->get_results($wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "wdpslayer WHERE slide_id='%d' ORDER BY `depth` ASC", $slide_row->id));
        $slide_row->layer = array(); 
        foreach($layers_row as $layer) {
+        $layer_characters_count = (isset($layer->layer_characters_count)) ? $layer->layer_characters_count : 0;
+          if($layer_characters_count == 0) {
+            $layer_characters_count = $layer_word_count;
+          }
          $string = $layer->text;
          foreach($post_fildes_name_current as $post_filde_name_curr) {
             if($post_filde_name_curr == 'post_author') {
@@ -67,7 +71,7 @@ class WDPSModelSlider {
                 $string = str_replace('{' . $post_filde_name_curr . '}', implode(',',get_post_field($post_filde_name_curr,$slide_row->post_id)), $string);
               }
               else {
-                $string = str_replace('{' . $post_filde_name_curr . '}',$this->add_more_link(strip_tags(get_post_field($post_filde_name_curr,$slide_row->post_id)),$layer_word_count),$string);
+                $string = str_replace('{' . $post_filde_name_curr . '}',$this->add_more_link(strip_tags(get_post_field($post_filde_name_curr,$slide_row->post_id)),$layer_characters_count),$string);
               }
             }
         }
@@ -95,7 +99,7 @@ class WDPSModelSlider {
        $post_type = $wpdb->get_var($wpdb->prepare('SELECT choose_post FROM ' . $wpdb->prefix . 'wdpsslider WHERE id="%d"', $id));
        $posts_count = $wpdb->get_var($wpdb->prepare('SELECT posts_count FROM ' . $wpdb->prefix . 'wdpsslider WHERE id="%d"', $id));
        $cache_expiration = $wpdb->get_var($wpdb->prepare('SELECT cache_expiration FROM ' . $wpdb->prefix . 'wdpsslider WHERE id="%d"', $id));    
-        $taxonom = $wpdb->get_var($wpdb->prepare('SELECT taxonomies FROM ' . $wpdb->prefix . 'wdpsslider WHERE id="%d"', $id));
+       $taxonom = $wpdb->get_var($wpdb->prepare('SELECT taxonomies FROM ' . $wpdb->prefix . 'wdpsslider WHERE id="%d"', $id));
        
         $cache_expiration_array = preg_split("/[\s,]+/", $cache_expiration);
         $cache_expiration_count = $cache_expiration_array[0];
@@ -197,13 +201,17 @@ class WDPSModelSlider {
        $posts_data = get_post_field('post_date',$post_id);
        $post->layer = array();
        foreach ($layers_row as $key => $layer) {
+        $layer_characters_count = (isset($layer->layer_characters_count)) ? $layer->layer_characters_count : 0;
+          if($layer_characters_count == 0) {
+            $layer_characters_count = $layer_word_count;
+          }
          $string = $layer->text;
          foreach($post_fildes_name as $post_filde_name) {
             if($post_filde_name == 'post_author') {
               $string = str_replace('{' . $post_filde_name . '}', get_the_author_meta('display_name', $post->post_author),$string);
             }
             else {
-              $string = str_replace('{' . $post_filde_name . '}',$this->add_more_link(strip_tags(get_post_field($post_filde_name,$post_id)),$layer_word_count),$string);
+              $string = str_replace('{' . $post_filde_name . '}',$this->add_more_link(strip_tags(get_post_field($post_filde_name,$post_id)),$layer_characters_count),$string);
             }
         }
         
