@@ -12,7 +12,7 @@ get_header(); ?>
     
     <div  id="content" class="container-fluid">
         
-	   <div id="primary" class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+	   <div id="primary" class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
 
             <main id="main" class="site-main" role="main">
 
@@ -34,7 +34,7 @@ get_header(); ?>
             </main><!-- #main -->
            
 	    </div><!-- #primary -->
-        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
             <?php get_sidebar(); ?>
         </div>
         
